@@ -32,6 +32,10 @@
           font-family: "Geist", sans-serif;
            font-optical-sizing: auto;
       }
+      .btn.active {
+        background-color: black;
+        color: white;
+      }
     </style>
   </head>
 <body>
@@ -41,27 +45,27 @@
             <h1 class="text-2xl md:text-4xl font-bold text-emerald-600 pb-3">Job Application Tracker</h1>
 
             <!-- job container -->
-            <div class="plant-section">
+            <div class="job-section">
 
                 <!-- job card -->
-                <div class="plant-card grid grid-cols-3 gap-3 py-2">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-2">
 
                     <!-- card 1-->
-                    <div class="card bg-yellow-100 items-center p-2">
+                    <div class="card bg-yellow-100 items-center p-2 rounded-lg shadow-md">
                         <p class="text-lg font-bold p-3">Total</p>
-                        <span id="total" class="text-xl font-bold">7</span>
+                        <span id="total" class="text-xl font-bold">1</span>
                     </div>
 
                     <!-- card 2-->
-                     <div class="card bg-emerald-100 items-center p-2">
+                     <div class="card bg-emerald-100 items-center p-2 rounded-lg shadow-md">
                         <p class="text-lg font-bold p-3">Interview</p>
-                        <span id="interview-count" class="text-xl font-bold text-orange-500">0</span>
+                        <span id="interview-count-number" class="text-xl font-bold text-orange-500">0</span>
                     </div>
 
                     <!-- card 3-->
-                    <div class="card bg-red-100 items-center p-2">
+                    <div class="card bg-red-100 items-center p-2 rounded-lg shadow-md">
                         <p class="text-lg font-bold p-3">Rejected</p>
-                        <span id="rejected-count" class="text-xl font-bold text-red-400">0</span>
+                        <span id="rejected-count-number" class="text-xl font-bold text-red-400">0</span>
                     </div>
                 </div>
 
@@ -80,16 +84,118 @@
 
             <!-- overview button -->
             <div class="overview-btn">
-                <button id="all-btn" type="button" class="btn text-base md:text-xl font-bold hover:bg-blue-400">All</button>
-                <button id="interview-count" type="button" class="btn text-base md:text-xl font-bold hover:bg-emerald-400">Interview</button>
-                <button id="struggling-count" type="button" class="btn text-base md:text-xl font-bold hover:bg-red-400">Rejected</button>
+                <button id="all-btn" type="button" class="btn text-base md:text-xl font-bold ">All</button>
+                <button id="interview-tab" type="button" class="btn text-base md:text-xl font-bold  ">Interview</button>
+                <button id="rejected-tab" type="button" class="btn text-base md:text-xl font-bold  ">Rejected</button>
             </div>
 
         </div>
     </section>
 
+    
+    <!-- jobsCard section  -->
+    <section class="jobCard-section">
+        <!-- container -->
+        <div class="max-w-screen-lg mx-auto p-3 ">
+            
+            
+            <!-- allCard container -->
+            <div id="allCard" class="all-card-container ">
+
+                <!-- card 1 -->
+                <div data-status="none" class="cardShow space-y-4 text-gray-700 border border-gray-400 p-5 rounded-lg">
+                    <div class="flex  items-center justify-between py-1">
+                        <!-- Mobile first corp card 1:  -->
+                        <div>
+                            <h2 class="text-lg font-semibold md:text-xl">Mobile First Corp</h2>
+                            <span class="text-sm  font-semibold">React Native Developer</span>
+                        </div>
+                        <!-- delete icon -->
+                        <div>
+                            <i  class="delete-btn fa-solid fa-trash-can lg:text-xl p-1"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex  flex-wrap gap-3">
+                        <p>Remote</p>
+                        <p>• Full-time </p>
+                        <p>• $130,000 - $175,000</p>
+                        
+                    </div>
+
+                    <!-- no applicable btn -->
+                    <button type="button" data-status="none" class="no-applicable-btn btn badge badge-warning border border-yellow-300">No Applicable</button>
+                    <h3 class="text-sm font-medium md:text-base">New leaf unfurling by the east window</h3>
 
 
+                    <!-- button -->
+                    <div class="flex items-center gap-2">
+                        <button  type="button" class="interviewBtn btn text-base md:text-xl font-bold hover:bg-blue-400 border border-blue-400">Interview</button>
 
+                        <button type="button" class="rejectedBtn btn text-base md:text-xl font-bold hover:bg-red-400 border border-red-300">Rejected</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+ 
+<script>
+ const interviewBtn = document.querySelectorAll('.interviewBtn');
+ const rejectedBtn = document.querySelectorAll('.rejectedBtn');
+ const interviewCount = document.getElementById('interview-count-number');
+ const rejectedCount = document.getElementById('rejected-count-number');
+
+ rejectedBtn.forEach((btn) => { 
+    btn.addEventListener('click', function() { 
+
+        const card = this.closest('.cardShow');
+
+        const currentStatus = card.dataset.status;
+
+        if(currentStatus !== 'rejected') {
+
+            if(currentStatus === 'interview') {
+                interviewCount.innerText = Number(interviewCount.innerText) - 1;
+            }
+
+            rejectedCount.innerText = Number(rejectedCount.innerText) + 1;
+
+            card.dataset.status = 'rejected';
+
+            const statusText = card.querySelector('.no-applicable-btn');
+            statusText.innerText = 'Rejected'
+        }
+    })
+ })
+
+
+ interviewBtn.forEach((btn) => { 
+    btn.addEventListener('click', function() { 
+
+        const card = this.closest('.cardShow');
+        
+        const currentStatus = card.dataset.status;
+
+        if(currentStatus !== 'interview') {
+
+            if(currentStatus === 'rejected') {
+                rejectedCount.innerText = Number(rejectedCount.innerText) - 1;
+            }
+            interviewCount.innerHTML = Number(interviewCount.innerText) + 1
+
+            card.dataset.status = 'interview';
+
+            const 
+            statusText =card.querySelector('.no-applicable-btn');
+            statusText.innerText = 'Interview';
+        }
+    });
+ });
+</script>
+
+
+ 
 </body>
 </html>
